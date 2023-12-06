@@ -2,18 +2,23 @@
 
 import { useState } from 'react';
 
-function Form({error, handleSubmit}: {
-    error: string; 
+function Form({handleSubmit}: {
     handleSubmit: () => void;
   }) {
   
   const [guess, setGuess] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmitForm = (e: React.FormEvent) => {
     e.preventDefault(); // needed to stop the whole page from refreshing on Submit
-    handleSubmit(guess);
-    setGuess('');
-  };  
+    if (guess.length === 5) { 
+      handleSubmit(guess);
+      setGuess('') 
+      setError('')
+    } else {
+      setError('Input must be 5 characters')
+    };
+  };
 
   return (
     <div className="flex flex-col items-center justify-center bg-white">
@@ -50,23 +55,17 @@ function RenderGuesses({ guesses }: { guesses: string[] }) {
 
 
 function Game() {
-  const [error, setError] = useState('');
   const [guesses, setGuesses] = useState<string[]>([]);
   
   const handleSubmit = (guess: string) => {
-    if (guess.length !== 5) {
-      setError('Input must be exactly 5 characters');
-    } else {
-      console.log(guess.toUpperCase());
-      setGuesses([...guesses, guess.toUpperCase()]);
-      setError('');
-    }
+    console.log(guess.toUpperCase());
+    setGuesses([...guesses, guess.toUpperCase()]);
   };
 
   return (
     <>
       <div>
-        <Form error={error} handleSubmit={handleSubmit} />
+        <Form handleSubmit={handleSubmit} />
       </div>
       <div>
         <RenderGuesses guesses={guesses} />
