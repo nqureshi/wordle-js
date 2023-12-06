@@ -5,14 +5,17 @@ import { useState } from 'react';
 function Form() {
   const [guess, setGuess] = useState('');
   const [error, setError] = useState('');
+  const [guesses, setGuesses] = useState<string[]>([]);
 
   const handleSubmit = () => {
     if (guess.length !== 5) {
       setError('Input must be exactly 5 characters');
+      setGuess('');
     } else {
       console.log(guess);
-      setError(''); // clear the error
-      // You can replace the console.log with your own logic
+      setGuesses([...guesses, guess.toUpperCase()]);
+      setError('');
+      setGuess('');
     }
   };
 
@@ -31,6 +34,11 @@ function Form() {
         {error && <p className="text-red-500">{error}</p>}
         <button type="button" onClick={handleSubmit} className="bg-blue-500 text-white rounded-md px-4 py-2 mt-4">Submit</button>
       </form>
+      <ul>
+        {guesses.map((guess, index) => 
+          <li key={index}>{guess}</li>
+        )}
+      </ul>
     </div>
   );
 }
