@@ -2,14 +2,8 @@
 
 import { useState } from 'react';
 
-function Form({
-    error, setError, guesses, setGuesses, handleSubmit
-  }: 
-  {
+function Form({error, handleSubmit}: {
     error: string; 
-    setError: React.Dispatch<React.SetStateAction<string>>;  
-    guesses: string[]; 
-    setGuesses: React.Dispatch<React.SetStateAction<string[]>>;
     handleSubmit: () => void;
   }) {
   
@@ -72,7 +66,7 @@ function Game() {
   return (
     <>
       <div>
-        <Form error={error} setError={setError} guesses={guesses} setGuesses={setGuesses} handleSubmit={handleSubmit} />
+        <Form error={error} handleSubmit={handleSubmit} />
       </div>
       <div>
         <RenderGuesses guesses={guesses} />
