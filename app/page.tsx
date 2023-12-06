@@ -2,9 +2,7 @@
 
 import { useState } from 'react';
 
-function Form({handleSubmit}: {
-    handleSubmit: () => void;
-  }) {
+function Form({handleSubmit}) {
   
   const [guess, setGuess] = useState('');
   const [error, setError] = useState('');
@@ -21,15 +19,14 @@ function Form({handleSubmit}: {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center bg-white">
-      <h1 className="text-4xl mb-4">WORDLE</h1>
+    <div>
       <form className="flex flex-col items-center" onSubmit={handleSubmitForm}>
         <label htmlFor="guess-input" className="mb-2">Enter guess:</label>
         <input 
           id="guess-input" 
           type="text" 
-          value={guess} // Use localGuess for the input value
-          onChange={e => setGuess(e.target.value)} // Update localGuess on change
+          value={guess}
+          onChange={e => setGuess(e.target.value)}
           className="border-2 border-gray-300 rounded-md p-2 mb-2"
         />
         {error && <p className="text-red-500">{error}</p>}
@@ -41,10 +38,10 @@ function Form({handleSubmit}: {
 
 function RenderGuesses({ guesses }: { guesses: string[] }) {
   return (
-    <div className="mt-8">
+    <div className="">
       <ul className="p-4">
         {guesses.map((guess, index) => (
-          <li key={index} className="">
+          <li key={index} className="text-center">
             {guess}
           </li>
         ))}
@@ -52,7 +49,6 @@ function RenderGuesses({ guesses }: { guesses: string[] }) {
     </div>
   );
 }
-
 
 function Game() {
   const [guesses, setGuesses] = useState<string[]>([]);
@@ -64,10 +60,12 @@ function Game() {
 
   return (
     <>
-      <div>
+      <div className="flex flex-col items-center justify-center bg-white p-24">
+        <h1 className="text-4xl mb-4">WORDLE</h1>
         <Form handleSubmit={handleSubmit} />
       </div>
-      <div>
+      <div className="flex flex-col items-center justify-center bg-white p-4">
+        <h2>So far, you've guessed...</h2>
         <RenderGuesses guesses={guesses} />
       </div>
     </>
