@@ -42,10 +42,10 @@ function Form({
 
 function RenderGuesses({ guesses }: { guesses: string[] }) {
   return (
-    <div className="mt-8"> {/* Margin top to separate from the form */}
-      <ul className="p-4"> {/* Padding, background color, rounded corners, and shadow */}
+    <div className="mt-8">
+      <ul className="p-4">
         {guesses.map((guess, index) => (
-          <li key={index} className=""> {/* Padding and border for each item */}
+          <li key={index} className="">
             {guess}
           </li>
         ))}
