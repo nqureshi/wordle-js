@@ -46,19 +46,17 @@ function RenderGuesses({ guesses }: { guesses: string[] }) {
     if (guesses[i]) {
       arr.push(guesses[i])
     } else {
-      arr.push("     ")
+      arr.push("     ") // 6 empty chars for six boxes
     }
   }
-
-  console.log(checkGuess(arr[0], 'WHALE'));
 
   return (
     <div className="guess-results p-4">
       {arr.map((guess, index) => (
         <p className="guess" key={index}>
-          {guess.split('').map((letter, index) =>
-            <span key={index} className="cell">
-              {letter}
+          {checkGuess(guess, 'WHALE').map((item, letterIndex) =>
+            <span key={letterIndex} className={`cell ${item.letter === ' ' ? '' : item.status}`.trim()}>
+              {item.letter}
             </span>
           )}
         </p>
