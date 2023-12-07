@@ -3,7 +3,11 @@
 import { NUM_OF_GUESSES_ALLOWED } from './utils/constants';
 import { range, sample } from './utils/utils';
 import { checkGuess } from './utils/game-helpers';
+import { WORDS } from './utils/data';
 import { useState } from 'react';
+
+let ANSWER = sample(WORDS);
+// console.log(ANSWER);
 
 function Form({ handleSubmit }) {
 
@@ -54,8 +58,8 @@ function RenderGuesses({ guesses }: { guesses: string[] }) {
     <div className="guess-results p-4">
       {arr.map((guess, index) => (
         <p className="guess" key={index}>
-          {checkGuess(guess, 'WHALE').map((item, letterIndex) =>
-            <span key={letterIndex} className={`cell ${item.letter === ' ' ? '' : item.status}`.trim()}>
+          {checkGuess(guess, ANSWER).map((item, letterIndex) =>
+            <span key={letterIndex} className={`cell ${item.letter === ' ' ? '' : item.status}`}>
               {item.letter}
             </span>
           )}
