@@ -1,20 +1,9 @@
 "use client"
 
+import { NUM_OF_GUESSES_ALLOWED } from './utils/constants';
+import { range, sample } from './utils/utils';
+import { checkGuess } from './utils/game-helpers';
 import { useState } from 'react';
-
-const range = (start, end, step = 1) => {
-  let output = [];
-  if (typeof end === 'undefined') {
-    end = start;
-    start = 0;
-  }
-  for (let i = start; i < end; i += step) {
-    output.push(i);
-  }
-  return output;
-};
-
-const NUM_OF_GUESSES_ALLOWED = 6;
 
 function Form({ handleSubmit }) {
 
@@ -61,14 +50,14 @@ function RenderGuesses({ guesses }: { guesses: string[] }) {
     }
   }
 
-  console.log(arr);
+  console.log(checkGuess(arr[0], 'WHALE'));
 
   return (
     <div className="guess-results p-4">
       {arr.map((guess, index) => (
         <p className="guess" key={index}>
           {guess.split('').map((letter, index) =>
-            <span key={index} className="letter-box text-center">
+            <span key={index} className="cell">
               {letter}
             </span>
           )}
