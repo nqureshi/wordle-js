@@ -2,6 +2,20 @@
 
 import { useState } from 'react';
 
+const range = (start, end, step = 1) => {
+  let output = [];
+  if (typeof end === 'undefined') {
+    end = start;
+    start = 0;
+  }
+  for (let i = start; i < end; i += step) {
+    output.push(i);
+  }
+  return output;
+};
+
+const NUM_OF_GUESSES_ALLOWED = 6;
+
 function Form({ handleSubmit }) {
 
   const [guess, setGuess] = useState('');
@@ -37,9 +51,21 @@ function Form({ handleSubmit }) {
 }
 
 function RenderGuesses({ guesses }: { guesses: string[] }) {
+  const arr = []
+
+  for (let i = 0; i < NUM_OF_GUESSES_ALLOWED; i++) {
+    if (guesses[i]) {
+      arr.push(guesses[i])
+    } else {
+      arr.push("     ")
+    }
+  }
+
+  console.log(arr);
+
   return (
     <div className="guess-results p-4">
-      {guesses.map((guess, index) => (
+      {arr.map((guess, index) => (
         <p className="guess" key={index}>
           {guess.split('').map((letter, index) =>
             <span key={index} className="letter-box text-center">
