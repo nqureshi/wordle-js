@@ -2,16 +2,16 @@
 
 import { useState } from 'react';
 
-function Form({handleSubmit}) {
-  
+function Form({ handleSubmit }) {
+
   const [guess, setGuess] = useState('');
   const [error, setError] = useState('');
 
   const handleSubmitForm = (e: React.FormEvent) => {
     e.preventDefault(); // needed to stop the whole page from refreshing on Submit
-    if (guess.length === 5) { 
+    if (guess.length === 5) {
       handleSubmit(guess);
-      setGuess('') 
+      setGuess('')
       setError('')
     } else {
       setError('Input must be 5 characters')
@@ -22,9 +22,9 @@ function Form({handleSubmit}) {
     <div>
       <form className="flex flex-col items-center" onSubmit={handleSubmitForm}>
         <label htmlFor="guess-input" className="mb-2">Enter guess:</label>
-        <input 
-          id="guess-input" 
-          type="text" 
+        <input
+          id="guess-input"
+          type="text"
           value={guess}
           onChange={e => setGuess(e.target.value)}
           className="border-2 border-gray-300 rounded-md p-2 mb-2"
@@ -38,21 +38,23 @@ function Form({handleSubmit}) {
 
 function RenderGuesses({ guesses }: { guesses: string[] }) {
   return (
-    <div className="">
-      <ul className="p-4">
-        {guesses.map((guess, index) => (
-          <li key={index} className="text-center">
-            {guess}
-          </li>
-        ))}
-      </ul>
+    <div className="guess-results p-4">
+      {guesses.map((guess, index) => (
+        <p className="guess" key={index}>
+          {guess.split('').map((letter, index) =>
+            <span key={index} className="letter-box text-center">
+              {letter}
+            </span>
+          )}
+        </p>
+      ))}
     </div>
   );
 }
 
 function Game() {
   const [guesses, setGuesses] = useState<string[]>([]);
-  
+
   const handleSubmit = (guess: string) => {
     console.log(guess.toUpperCase());
     setGuesses([...guesses, guess.toUpperCase()]);
@@ -63,8 +65,8 @@ function Game() {
       <div className="flex flex-col items-center justify-center bg-white p-24">
         <h1 className="text-4xl mb-4">WORDLE</h1>
         <Form handleSubmit={handleSubmit} />
-      </div>
-      <div className="flex flex-col items-center justify-center bg-white p-4">
+        <div className="flex flex-col items-center justify-center bg-white p-4">
+        </div>
         <h2>So far, you've guessed...</h2>
         <RenderGuesses guesses={guesses} />
       </div>
