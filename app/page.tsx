@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react';
 let ANSWER = sample(WORDS);
 console.log(ANSWER);
 
-function Form({ handleSubmit, guesses }: { handleSubmit: () => void; guesses: string[] }) {
+function Form({ handleSubmit, handleGameLoss, guesses }: { handleSubmit: () => void; handleGameLoss: () => void; guesses: string[] }) {
 
   const [guess, setGuess] = useState('');
   const [error, setError] = useState('');
@@ -28,10 +28,10 @@ function Form({ handleSubmit, guesses }: { handleSubmit: () => void; guesses: st
     if (guess.toUpperCase() === ANSWER) {
       setIsDisabled(true); // Disable text input
       console.log("You won!");
-      console.log(guesses);
     } else if (guesses.length > NUM_OF_GUESSES_ALLOWED - 2) {
       setIsDisabled(true);
-      console.log("You lost!");
+      console.log("You lost! The answer was " + ANSWER);
+      handleGameLoss();
     }
 
     // if guess is valid length + neither win nor loss...
@@ -88,21 +88,28 @@ function RenderGuesses({ guesses }: { guesses: string[] }) {
 
 function Game() {
   const [guesses, setGuesses] = useState<string[]>([]);
+  const [gameLost, setGameLost] = useState(false);
 
   const handleSubmit = (guess: string) => {
     console.log(guess.toUpperCase());
     setGuesses([...guesses, guess.toUpperCase()]);
   };
 
+  const handleGameLoss = () => {
+    console.log("The game ended!");
+    setGameLost(true);
+  };
+
   return (
     <>
       <div className="flex flex-col items-center justify-center bg-white p-24">
         <h1 className="text-4xl mb-4">WORDLE</h1>
-        <Form handleSubmit={handleSubmit} guesses={guesses} />
+        <Form handleSubmit={handleSubmit} guesses={guesses} handleGameLoss={handleGameLoss} />
         <div className="flex flex-col items-center justify-center bg-white p-4">
+          <h2>You have six guesses! Refresh the page if you want a new word.</h2>
+          {gameLost && <p className="text-red-500">You lost! The answer was {ANSWER}. Refresh to play again!</p>}
+          <RenderGuesses guesses={guesses} />
         </div>
-        <h2>So far, you've guessed...</h2>
-        <RenderGuesses guesses={guesses} />
       </div>
     </>
   );
